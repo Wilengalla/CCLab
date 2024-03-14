@@ -52,7 +52,8 @@ let dropY = [];
 let dropSpeed = [];
 
 function setup() {
-  createCanvas(800, 500);
+  let cnv = createCanvas(800, 500);
+  cnv.parent("p5-canvas-container")
   x = 450;
   y = 300;
   happyX = 400;
