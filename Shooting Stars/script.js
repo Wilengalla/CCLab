@@ -10,8 +10,6 @@ function setup() {
 
 function draw() {
   background(0, 0, 0, 50);
-  
-  
   circle(width/2, height/2, 50)
   noStroke(); 
   for (let i = 0; i < starPositions.length; i++) {
