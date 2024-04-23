@@ -8,3 +8,5 @@ function draw() {
   fill(225)
   rect(windowWidth/2 - 200, windowHeight/2 - 125, 400, 250)
 }
+
+class()
