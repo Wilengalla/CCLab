@@ -10,12 +10,12 @@ canvas {
 
 .mainWrapper{
   text-align: center;
-  background-color: #000000;
+  background-color: #fffbfb;
   width: 1000px;
   border: 4px black solid;
   margin: auto;
   padding: 30px;
-  color: antiquewhite;
+  color:rgb(0, 0, 0);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
@@ -44,4 +44,19 @@ canvas {
 .img{
   background-color: white;
   padding: 30px;
+}
+
+#memeDescription{
+  text-align: center;
+  background-color: #fffbfb;
+  width: 1000px;
+  border: 4px black solid;
+  margin: auto;
+  padding: 30px;
+  color:rgb(0, 0, 0);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.Memetitle{
+  text-align: center;
 }
