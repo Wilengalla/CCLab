@@ -22,16 +22,16 @@ let captureButton;
 
 function preload() {
   for (let i = 0; i < 6; i++) {
-    memeBkg.push(loadImage("MemeBackground/Meme" + i + ".jpeg"));
+    memeBkg.push(loadImage("MemeBackground_ran/Meme" + i + ".jpeg"));
   }
   for (let i = 0; i < 21; i++) {
-    memeImages.push(loadImage("Memes/meme" + i + ".png"));
+    memeImages.push(loadImage("Memes_ran/meme" + i + ".PNG"));
   }
   for (let i = 0; i < 30; i++) {
-    lebronSound.push(loadSound("MemeSongs/memeSong0.mp3"));
+    lebronSound.push(loadSound("MemeSongs_ran/memeSong0.mp3"));
   }
   for (let i = 0; i < 30; i++) {
-    popSound.push(loadSound("MemeSongs/memeSong1.mp3"));
+    popSound.push(loadSound("MemeSongs_ran/memeSong1.mp3"));
   }
 
 }
