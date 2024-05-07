@@ -28,10 +28,10 @@ function preload() {
     memeImages.push(loadImage("Memes_rand/meme" + i + ".png"));
   }
   for (let i = 0; i < 30; i++) {
-    lebronSound.push(loadSound("MemeSongs_ran/memeSong0.mp3"));
+    lebronSound.push(loadSound("MemeSongs_ran/MemeSong0.mp3"));
   }
   for (let i = 0; i < 30; i++) {
-    popSound.push(loadSound("MemeSongs_ran/memeSong1.mp3"));
+    popSound.push(loadSound("MemeSongs_ran/MemeSong1.mp3"));
   }
 
 }
