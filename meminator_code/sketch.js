@@ -25,7 +25,7 @@ function preload() {
     memeBkg.push(loadImage("MemeBackground_ran/Meme" + i + ".jpeg"));
   }
   for (let i = 0; i < 21; i++) {
-    memeImages.push(loadImage("Memes_rand/meme" + i + ".png"));
+    memeImages.push(loadImage("Memes_rand/Meme" + i + ".png"));
   }
   for (let i = 0; i < 30; i++) {
     lebronSound.push(loadSound("MemeSongs_ran/MemeSong0.mp3"));
