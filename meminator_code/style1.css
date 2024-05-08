@@ -1,0 +1,12 @@
+.video-container {
+    position: relative;
+    width: 100%; /* Adjust as needed */
+    max-width: 2000px; /* Adjust as needed */
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  video {
+    width: 100%;
+    height: auto;
+  }

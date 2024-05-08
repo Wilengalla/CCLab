@@ -17,6 +17,11 @@ let nyanCatImage;
 let rainbowImage;
 let clearButton;
 let captureButton;
+let nyanCatSound = [];
+let nyanCatSoundIndex = 0;
+let deg = 0;
+let trolol = []
+let trololSoundIndex = 0
 
 
 
@@ -24,7 +29,7 @@ function preload() {
   for (let i = 0; i < 6; i++) {
     memeBkg.push(loadImage("MemeBackground_ran/Meme" + i + ".jpeg"));
   }
-  for (let i = 0; i < 21; i++) {
+  for (let i = 0; i < 25; i++) {
     memeImages.push(loadImage("Memes_rand/Meme" + i + ".png"));
   }
   for (let i = 0; i < 30; i++) {
@@ -32,6 +37,12 @@ function preload() {
   }
   for (let i = 0; i < 30; i++) {
     popSound.push(loadSound("MemeSongs_ran/MemeSong1.mp3"));
+  }
+  for (let i = 0; i < 30; i++) {
+    nyanCatSound.push(loadSound("MemeSongs_ran/MemeSong2.mp3"));
+  }
+  for (let i = 0; i < 30; i++) {
+    trolol.push(loadSound("MemeSongs_ran/MemeSong3.mp3"));
   }
 
 }
@@ -43,14 +54,14 @@ function setup() {
   canvas.parent("canvasContainer");
 
 
-  stickerButtons.push(new Sticker1(200, 500, memeImages[1], lebronSound[lebronSoundIndex]));
-  stickerButtons.push(new Popcat(200, 300))
-  stickerButtons.push(new ConfusedGuy(25, 300))
-  stickerButtons.push(new LookingGuy(25, 500))
-  stickerButtons.push(new NyanCat(1050, 300, memeImages[18], memeImages[19]))
-  stickerButtons.push(new Trolol(1200, 300, memeImages[0]))
-  stickerButtons.push(new Smurf(1200, 500, memeImages[4]))
-  stickerButtons.push(new Pepe(1050, 500, memeImages[20]))
+  stickerButtons.push(new Sticker1(200, 525, memeImages[1], lebronSound[lebronSoundIndex]));
+  stickerButtons.push(new Popcat(200, 325, memeImages[2], memeImages[3]))
+  stickerButtons.push(new ConfusedGuy(25, 325))
+  stickerButtons.push(new LookingGuy(25, 525))
+  stickerButtons.push(new NyanCat(windowWidth / 2 + windowWidth/4 + 25, windowHeight/2 - 50, memeImages[18], memeImages[19],nyanCatSound[nyanCatSoundIndex]))
+  stickerButtons.push(new Trolol(windowWidth / 2 + windowWidth/4 + 175, windowHeight/2 - 50, memeImages[0], trolol[trololSoundIndex]))
+  stickerButtons.push(new Smurf(windowWidth / 2 + windowWidth/4 + 175, windowHeight/2 + 150, memeImages[4]))
+  stickerButtons.push(new Pepe(windowWidth / 2 + windowWidth/4 + 25, windowHeight/2 + 150, memeImages[20]))
   
 
   let totalWidth = memeBkg.length * (70 + buttonSpacing);
@@ -58,25 +69,31 @@ function setup() {
 
   for (let i = 0; i < memeBkg.length; i++) {
     let buttonX = startX + i * (70 + buttonSpacing);
-    bkgButtons.push(new BkgButton(buttonX, 75, memeBkg[i], 200, 125));
+    bkgButtons.push(new BkgButton(buttonX, 105, memeBkg[i], 200, 125));
   }
 
   clearButton = createButton('Clear Stickers');
-  clearButton.position(600, 2950);
+  clearButton.position(windowWidth/2, 3250);
   clearButton.mousePressed(clearStickers);
+  
+
+  // soundStop = createButton('Clear Sound')
+  // soundStop.position(600, 3000);
+  // soundStop.mousePressed(stopSound);
 
   captureButton = createButton('Capture'); // Create a button
-  captureButton.position(500, 2950); // Position the button
+  captureButton.position(windowWidth/2 - 150, 3250); // Position the button
   captureButton.mousePressed(saveRectangle); // Call saveRectangle() when the button is pressed
 }
 
 function draw() {
-  background("black");
+ image(memeImages[24], 0, 0, windowWidth, windowHeight)
   rect(325, 250, windowWidth / 2, windowHeight / 2);
   for (let i = 0; i < bkgButtons.length; i++) {
     bkgButtons[i].update();
     bkgButtons[i].display();
   }
+
 
   if (activeBkgImage !== false) {
     image(activeBkgImage, 325, 250, windowWidth / 2, windowHeight / 2);
@@ -147,7 +164,6 @@ class Sticker1 {
   constructor(startX, startY, img, s) {
     this.x = startX;
     this.y = startY;
-    this.imgY = 500
 
     this.sound = s;
     lebronSoundIndex++;
@@ -157,6 +173,7 @@ class Sticker1 {
     this.height = 75;
     this.isBeingDragged = false;
     this.image = img;
+    this.image1 = 
     this.frameCount = 0;
     this.freq = 0.01; 
     this.amplitude = 25; 
@@ -167,7 +184,10 @@ class Sticker1 {
     if (this.isBeingDragged) {
       this.x = mouseX - this.width / 2;
       this.y = mouseY - this.height / 2;
-      console.log(this.sound)
+    }
+    
+    
+    if(this.isInsideRectangle()){
       if(this.sound.isPlaying() == false){
         this.sound.play();
       } 
@@ -231,29 +251,22 @@ class Sticker1 {
 }
 
 class Popcat {
-  constructor(startX, startY, s, img1, img2) {
+  constructor(startX, startY, img1, img2) {
     this.x = startX;
     this.y = startY;
     this.imgY = 475;
-    this.sound = s;
     popSoundIndex++;
 
     this.width = 75;
     this.height = 75;
     this.isBeingDragged = false;
-    this.image1 = memeImages[2];
-    this.image2 = memeImages[3];
+    this.image1 = img1;
+    this.image2 = img2;
     this.currentImage = this.image1; // Start with the first image
     this.frameCount = 0;
-    this.animationSpeed = 10; // Adjust speed of animation
+    this.frameCount++
+    this.animationSpeed = 10; 
 
-    // Create an empty div element as a placeholder for the event listener
-    this.element = document.createElement('div');
-
-    // Adding event listener to trigger addTextToDescription function
-    this.element.addEventListener('click', () => {
-      addTextToDescription('whdiawdhidhaidhwaiohdaiwhd');
-    });
   }
 
   update() {
@@ -263,16 +276,17 @@ class Popcat {
       this.x = mouseX - this.width / 2;
       this.y = mouseY - this.height / 2;
     }
-  
 
-    if (this.isPressed()) {
-      this.currentImage = this.image2;
-      
-    } else {
-      this.currentImage = this.image1;
+    if(this.isInsideRectangle()){
+      if (frameCount % 10 === 0) {
+        if (this.currentImage === this.image1) {
+          this.currentImage = this.image2;
+        } else {
+          this.currentImage = this.image1;
+        }
     }
   }
-
+}
   display() {
     push();
     translate(this.x, this.y);
@@ -488,7 +502,7 @@ class LookingGuy {
 }
 
 class NyanCat {
-  constructor(startX, startY, img, rainbowImg) {
+  constructor(startX, startY, img, rainbowImg, s) {
     this.x = startX;
     this.y = startY;
     this.width = 80; 
@@ -499,6 +513,8 @@ class NyanCat {
     this.rainbowTrail = []; 
     this.rainbowImg = rainbowImg;
     this.isBeingDragged = false; // Initialize isBeingDragged to false
+    this.sound = s
+    nyanCatSoundIndex++
   }
 
   update() {
@@ -507,13 +523,17 @@ class NyanCat {
       this.y = mouseY - this.height / 2;
     }
 
+    if(this.isInsideRectangle()){
+      if(this.sound.isPlaying() == false){
+        this.sound.play();
+      } 
+    }else{
+      this.sound.stop();
+    }
+
     // Check if Nyan Cat is inside the rectangle before updating its position
     if (this.isInsideRectangle()) {
-      // Wrap around screen if Nyan Cat goes off the canvas
-      if (this.x > width + this.width) {
-        // Reset position to the left side of the rectangle
-        this.x = 325;
-      }
+      // Wrap around screen if Nyan Cat goes off the canva
 
       // Update frame count for animation
       this.frameCount++;
@@ -635,35 +655,45 @@ class Rainbow {
     this.dia -= 10;
   }
 }
-class Trolol{
-  constructor(startX, startY, img1) {
+
+class Trolol {
+  constructor(startX, startY, img1, s) {
     this.x = startX;
     this.y = startY;
-    this.imgY = 475;
-    popSoundIndex++;
-
     this.width = 75;
     this.height = 75;
     this.isBeingDragged = false;
     this.image1 = img1;
-    this.currentImage = this.image1; // Start with the first image
-    this.frameCount = 0;
-    this.animationSpeed = 10; // Adjust speed of animation
+    this.currentImage = this.image1;
+    this.sound = s
+    trololSoundIndex++
   }
 
   update() {
-    // For the stickers in use, setting
-    // this property to true allows us to drag it
     if (this.isBeingDragged) {
       this.x = mouseX - this.width / 2;
       this.y = mouseY - this.height / 2;
     }
+    if(this.isInsideRectangle()){
+      deg += 1
+      if(this.sound.isPlaying() == false){
+        this.sound.play();
+    }
+    }else{
+      this.sound.stop();
   }
+}
 
   display() {
     push();
-    translate(this.x, this.y);
+    translate(this.x + this.width / 2, this.y + this.height / 2); 
+    let rad = radians(deg); 
+    rotate(rad);
+    push() 
+    translate(-35, -35)
     image(this.currentImage, 0, 0, this.width, this.height);
+    fill("red")
+    pop()
     pop();
   }
 
@@ -676,7 +706,6 @@ class Trolol{
       mouseY < this.y + this.height
     );
   }
-
   isInsideRectangle() {
     let rectX = 325;
     let rectY = 250;
@@ -690,7 +719,6 @@ class Trolol{
       this.y + this.height < rectY + rectHeight
     );
   }
-
   increaseSize() {
     // Increase the size of the sticker
     this.width += 10;
@@ -784,6 +812,13 @@ class Pepe {
     this.height = 75;
     this.isBeingDragged = false;
     this.image = img;
+    this.image1 = memeImages[21]
+    this.frameCount = 0; 
+    this.frameCount++
+    this.currentImage = this.image
+    this.animationSpeed = 10;
+    this.image2 = memeImages[22]
+    this.image3 = memeImages[23]
   }
 
   update() {
@@ -791,12 +826,26 @@ class Pepe {
       this.x = mouseX - this.width / 2;
       this.y = mouseY - this.height / 2;
     }
-  }
 
+    if(this.isInsideRectangle()){
+      if (frameCount % 30 === 0) {
+        if (this.currentImage === this.image2) {
+          this.currentImage = this.image3;
+        } else {
+          this.currentImage = this.image2;
+        }
+    }
+  }
+  
+  }
+  
   display() {
     push();
     translate(this.x, this.y);
-    image(this.image, 0, 0, this.width, this.height);
+    image(this.currentImage, 0, 0, this.width, this.height);
+    if(this.isBeingDragged){
+      image(this.image1, 10, 0, this.height,this.width)
+    }
     pop();
   }
 
@@ -846,6 +895,7 @@ function mousePressed() {
     if (stickers[i].isPressed()) {
       stickers[i].isBeingDragged = true;
       clickedSticker = true;
+      break;
     }
   }
 
@@ -853,7 +903,7 @@ function mousePressed() {
   if (!clickedSticker) {
     for (let i = stickerButtons.length - 1; i >= 0; i--) {
       if (stickerButtons[i] instanceof Popcat && stickerButtons[i].isPressed()) {
-        let newPopcat = new Popcat(mouseX, mouseY); 
+        let newPopcat = new Popcat(mouseX, mouseY, memeImages[2], memeImages[3]); 
         addTextToDescription("Pop Cat the meme originated from a simple mobile game called Pop Cat where players tap on colorful cat faces to clear them from the screen. However, the meme version of Pop Cat takes this basic concept and transforms it into a humorous and often absurd internet phenomenon.")
         newPopcat.isBeingDragged = true;
         stickers.push(newPopcat);
@@ -900,7 +950,7 @@ function mousePressed() {
   if (!clickedSticker) {
     for (let i = stickerButtons.length - 1; i >= 0; i--) {
       if (stickerButtons[i] instanceof NyanCat && stickerButtons[i].isPressed()) {
-        let newNyanCat = new NyanCat(mouseX, mouseY, memeImages[18], memeImages[19]);
+        let newNyanCat = new NyanCat(mouseX, mouseY, memeImages[18], memeImages[19],nyanCatSound[nyanCatSoundIndex]);
         addTextToDescription("Nyan Cat gained popularity due to its catchy tune, vibrant visuals, and whimsical concept of a flying cat leaving a rainbow trail. The meme's combination of internet culture elements like cats, rainbows, and catchy music resonated with online audiences. ")
         newNyanCat.isBeingDragged = true;
         stickers.push(newNyanCat);
@@ -912,7 +962,7 @@ function mousePressed() {
   if (!clickedSticker) {
     for (let i = stickerButtons.length - 1; i >= 0; i--) {
       if (stickerButtons[i] instanceof Trolol && stickerButtons[i].isPressed()) {
-        let newSticker1 = new Trolol(mouseX, mouseY, memeImages[0]); 
+        let newSticker1 = new Trolol(mouseX, mouseY, memeImages[0], trolol[trololSoundIndex]); 
         addTextToDescription("This face gained popularity because it effectively conveyed the playful or trolling nature of online interactions. People often use it to express amusement, mischief, or to tease others in a light-hearted manner.");
         newSticker1.isBeingDragged = true;
         stickers.push(newSticker1);
@@ -946,8 +996,6 @@ function mousePressed() {
 }
 
 
-  // lebronSound[0].play();
-
 
 function mouseReleased() {
   for (let i = stickers.length - 1; i >= 0; i--) {
@@ -970,6 +1018,7 @@ function clearStickers() {
   // Clear all stickers from the canvas
   stickers = [];
 }
+
 
 
 function addTextToDescription(newText){
@@ -1039,7 +1088,6 @@ function increaseSize() {
     }
   }
 }
-
 
 function decreaseSize() {
   for (let i = 0; i < stickers.length; i++) {
